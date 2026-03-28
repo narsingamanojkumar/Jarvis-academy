@@ -3,160 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarvis Scholar</title>
+    <title>Jarvis 2.0 - Manoj Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root { --neon: #00f2ff; --bg: #05070a; --glass: rgba(0, 242, 255, 0.05); --pink: #ff0055; }
         body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; padding-bottom: 100px; }
         .header { margin-top: 20px; text-align: center; }
         .title { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--neon); text-shadow: 0 0 10px var(--neon); margin: 0; }
-        .section-title { width: 90%; font-size: 0.8rem; color: var(--pink); font-weight: bold; margin-top: 20px; border-bottom: 1px solid var(--pink); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
-        .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 90%; max-width: 450px; margin-top: 10px; }
-        .card { background: var(--glass); border: 1px solid var(--neon); border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; transition: 0.3s; font-size: 0.7rem; }
-        .card:hover { background: var(--neon); color: #000; box-shadow: 0 0 15px var(--neon); }
-        .launch-all { width: 90%; max-width: 450px; background: linear-gradient(45deg, var(--pink), #990033); color: white; border: none; border-radius: 12px; padding: 15px; margin-top: 15px; font-weight: bold; cursor: pointer; font-family: 'Orbitron', sans-serif; box-shadow: 0 0 20px var(--pink); }
-        .reactor-box { margin-top: 25px; }
-        .reactor { width: 85px; height: 85px; border-radius: 50%; border: 3px solid var(--neon); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px var(--neon); }
-        .core { width: 35px; height: 35px; background: radial-gradient(circle, #fff, var(--neon)); border-radius: 50%; animation: pulse 1.2s infinite; }
-        .input-bar { position: fixed; bottom: 20px; width: 90%; max-width: 400px; display: flex; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-radius: 25px; padding: 5px 10px; border: 1px solid var(--neon); z-index: 1000; }
-        input { background: transparent; border: none; color: #fff; flex: 1; padding: 10px; outline: none; font-size: 14px; }
-        .btn-go { background: var(--neon); border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-        #log { margin-top: 15px; font-size: 0.8rem; color: #aaa; text-align: center; padding: 0 20px; min-height: 40px; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+        .status-bar { font-size: 0.6rem; color: #00ff00; letter-spacing: 2px; margin-top: 5px; animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+        .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 90%; max-width: 450px; margin-top: 20px; }
+        .card { background: var(--glass); border: 1px solid var(--neon); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; font-size: 0.75rem; font-weight: bold; }
+        .card:hover { background: var(--neon); color: #000; transform: scale(1.05); box-shadow: 0 0 20px var(--neon); }
+        .reactor-box { margin-top: 30px; position: relative; }
+        .reactor { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--neon); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); background: radial-gradient(circle, rgba(0,242,255,0.2), transparent); }
+        .core { width: 40px; height: 40px; background: #fff; border-radius: 50%; box-shadow: 0 0 20px #fff; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        #log { margin-top: 20px; font-size: 0.9rem; color: #00f2ff; text-align: center; padding: 0 20px; min-height: 50px; font-weight: 500; text-shadow: 0 0 5px #000; }
+        .input-bar { position: fixed; bottom: 20px; width: 90%; max-width: 400px; display: flex; background: rgba(0,0,0,0.9); border-radius: 30px; padding: 5px 15px; border: 1px solid var(--neon); }
+        input { background: transparent; border: none; color: #fff; flex: 1; padding: 12px; outline: none; font-size: 15px; }
+        .btn-go { background: var(--neon); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; color: #000; font-weight: bold; }
     </style>
 </head>
-<body onclick="initSystem()">
+<body onclick="startJarvis()">
+
     <div class="header">
-        <div class="title">JARVIS SCHOLAR</div>
-        <p id="status" style="font-size: 0.6rem; color: yellow; letter-spacing: 1px;">TAP TO INITIALIZE ALL SYSTEMS</p>
+        <div class="title">JARVIS 2.0</div>
+        <div class="status-bar" id="st">SYSTEM IDLE - TAP TO BOOT</div>
     </div>
-    <button class="launch-all" onclick="process('master launch')">🚀 MASTER LAUNCH (ALL APPS)</button>
-    <div class="section-title">SSC & CBSE SCHOOLING</div>
-    <div class="grid-menu">
-        <div class="card" onclick="process('ssc')">TS SSC Portal</div>
-        <div class="card" onclick="process('cbse')">CBSE Board</div>
-        <div class="card" onclick="process('primary')">Class 1-5 (Primary)</div>
-        <div class="card" onclick="process('highschool')">Class 6-10 (SSC)</div>
-    </div>
-    <div class="section-title">IIT-JEE & COMPETITIVE</div>
-    <div class="grid-menu">
-        <div class="card" onclick="process('iit physics')">IIT Physics Sim</div>
-        <div class="card" onclick="process('iit maths')">IIT Maths Solver</div>
-        <div class="card" onclick="process('neet')">NEET Biology</div>
-        <div class="card" onclick="process('inter')">Inter (11th-12th)</div>
-    </div>
-    <div class="section-title">AI HUB & CREATIVITY</div>
-    <div class="grid-menu">
-        <div class="card" onclick="process('gemini')">Google Gemini</div>
-        <div class="card" onclick="process('chatgpt')">ChatGPT Pro</div>
-        <div class="card" onclick="process('nano')">Nano Banana AI</div>
-        <div class="card" onclick="process('edit')">Pro Photo Editor</div>
-    </div>
+
     <div class="reactor-box">
         <div class="reactor" id="mic"><div class="core"></div></div>
     </div>
-    <div id="log">సిస్టమ్ సిద్ధంగా ఉంది.</div>
-    <div class="input-bar">
-        <input type="text" id="inp" placeholder="ఆదేశం ఇవ్వండి..." autocomplete="off">
-        <button class="btn-go" id="sbm">➤</button>
+
+    <div id="log">నేను వింటున్నాను సార్...</div>
+
+    <div class="grid-menu">
+        <div class="card" onclick="process('time')">🕒 Time & Date</div>
+        <div class="card" onclick="process('youtube')">📺 Open YouTube</div>
+        <div class="card" onclick="process('ssc')">📚 SSC Study</div>
+        <div class="card" onclick="process('iit')">🚀 IIT Prep</div>
+        <div class="card" onclick="process('gemini')">🤖 Ask Gemini</div>
+        <div class="card" onclick="process('calculator')">🧮 Calculator</div>
     </div>
+
+    <div class="input-bar">
+        <input type="text" id="inp" placeholder="జార్విస్‌తో మాట్లాడండి..." autocomplete="off">
+        <button class="btn-go" onclick="process(document.getElementById('inp').value)">➤</button>
+    </div>
+
     <script>
         const log = document.getElementById('log');
-        const inp = document.getElementById('inp');
-        const status = document.getElementById('status');
-        let active = false;
+        const st = document.getElementById('st');
+        let isStarted = false;
 
-        function initSystem() {
-            if(!active) {
-                speak("జార్విస్ స్కాలర్ ఆన్‌లైన్ సార్. అన్ని ఫీచర్లు లోడ్ చేశాను. మీకు ఎలా సహాయపడగలను?");
-                active = true;
-                status.innerText = "SYSTEMS ONLINE";
-                status.style.color = "#00f2ff";
+        function startJarvis() {
+            if(!isStarted) {
+                speak("జార్విస్ 2.0 ఆన్‌లైన్ సార్. మనోజ్ సార్, అన్ని సిస్టమ్స్ సిద్ధంగా ఉన్నాయి. మీకు ఎలా సహాయపడగలను?");
+                st.innerText = "SYSTEMS ONLINE - ENCRYPTED";
+                isStarted = true;
             }
         }
 
-        function speak(txt) {
+        function speak(t) {
             window.speechSynthesis.cancel();
-            const m = new SpeechSynthesisUtterance(txt);
-            m.lang = 'te-IN'; m.rate = 1.2;
-            window.speechSynthesis.speak(m);
-            log.innerText = txt;
+            const s = new SpeechSynthesisUtterance(t);
+            s.lang = 'te-IN'; s.rate = 1.1;
+            window.speechSynthesis.speak(s);
+            log.innerText = t;
         }
 
-        function nav(url) { window.open(url, "_blank"); }
+        function nav(u) { window.open(u, "_blank"); }
 
-        function process(c) {        function process(c) {
-            c = c.toLowerCase().trim();
-            if(!c) return;
+        function process(cmd) {
+            cmd = cmd.toLowerCase().trim();
+            if(!cmd) return;
 
-            if (c.includes("master launch")) {
-                speak("సరే సార్, అన్నీ ఓపెన్ చేస్తున్నాను.");
-                const urls = ["https://bse.telangana.gov.in", "https://www.cbse.gov.in", "https://phet.colorado.edu/te/", "https://chat.openai.com"];
-                urls.forEach((u, i) => setTimeout(() => nav(u), i * 1500));
+            // 1. Basic Identity
+            if(cmd.includes("పేరు") || cmd.includes("name")) speak("నా పేరు జార్విస్. నేను మనోజ్ సార్ పర్సనల్ అసిస్టెంట్ ని.");
+            else if(cmd.includes("తయారు") || cmd.includes("create") || cmd.includes("boss")) speak("నన్ను మనోజ్ కుమార్ గారు క్రియేట్ చేశారు. ఆయనే నా బాస్!");
+            
+            // 2. Date & Time
+            else if(cmd.includes("time") || cmd.includes("సమయం")) {
+                const now = new Date();
+                speak("సార్, ప్రస్తుతం సమయం " + now.getHours() + " గంటల " + now.getMinutes() + " నిమిషాలు.");
             }
-            else if (c.includes("ssc")) { speak("SSC బోర్డ్ సైట్."); nav("https://bse.telangana.gov.in"); }
-            else if (c.includes("cbse")) { speak("CBSE బోర్డ్ సైట్."); nav("https://www.cbse.gov.in"); }
-            else if (c.includes("iit physics")) { speak("IIT ఫిజిక్స్."); nav("https://phet.colorado.edu/te/"); }
-            else if (c.includes("iit maths")) { speak("మ్యాథ్స్ సాల్వర్."); nav("https://www.symbolab.com"); }
-            else if (c.includes("gemini")) { speak("గూగుల్ జెమిని."); nav("https://gemini.google.com"); }
-            else if (c.includes("chatgpt")) { speak("చాట్ జిపిటి."); nav("https://chat.openai.com"); }
-            else if (c.includes("edit")) { speak("ఫోటో ఎడిటర్."); nav("https://www.photopea.com"); }
-            else if (c.includes("youtube") || c.includes("యూట్యూబ్")) { speak("యూట్యూబ్ ఓపెన్ చేస్తున్నాను."); nav("https://www.youtube.com"); }
-            else if (c.includes("నీ పేరు ఏమిటి") || c.includes("name")) { speak("నా పేరు జార్విస్ స్కాలర్."); }
-            else if (c.includes("తయారు చేసింది") || c.includes("create")) { speak("నన్ను మనోజ్ కుమార్ గారు తయారు చేశారు."); }
-            else if (c.includes("హలో") || c.includes("hi")) { speak("హలో సార్, మీకు ఎలా సహాయపడగలను?"); }
-            else { speak("క్షమించండి సార్, అది నా డేటాబేస్ లో లేదు."); }
-            inp.value = "";
-        }
-                             
-            c = c.toLowerCase().trim();
-            if(!c) return;
-
-            if (c.includes("master launch") || c.includes("అన్నీ ఓపెన్ చేయి")) {
-                speak("సరే సార్, మీ మొత్తం ఎడ్యుకేషన్ హబ్‌ని ఓపెన్ చేస్తున్నాను.");
-                const urls = ["https://bse.telangana.gov.in", "https://www.cbse.gov.in", "https://phet.colorado.edu/te/", "https://chat.openai.com"];
-                urls.forEach((u, i) => setTimeout(() => nav(u), i * 1500));
-            }
-            else if (c.includes("ssc")) { speak("SSC బోర్డ్ సైట్ ఓపెన్ చేస్తున్నాను."); nav("https://bse.telangana.gov.in"); }
-            else if (c.includes("cbse")) { speak("CBSE బోర్డ్ సైట్ ఓపెన్ చేస్తున్నాను."); nav("https://www.cbse.gov.in"); }
-            else if (c.includes("primary")) { speak("ప్రైమరీ లెర్నింగ్ మెటీరియల్."); nav("https://www.diksha.gov.in/"); }
-            else if (c.includes("highschool")) { speak("హైస్కూల్ స్టడీ మెటీరియల్."); nav("https://www.extramarks.com/"); }
-            else if (c.includes("iit physics")) { speak("IIT ఫిజిక్స్ సిమ్యులేషన్స్."); nav("https://phet.colorado.edu/te/"); }
-            else if (c.includes("iit maths")) { speak("మ్యాథ్స్ ప్రాబ్లమ్ సాల్వర్."); nav("https://www.symbolab.com"); }
-            else if (c.includes("neet")) { speak("నీట్ బయాలజీ నోట్స్."); nav("https://www.biologycorner.com"); }
-            else if (c.includes("inter")) { speak("ఇంటర్మీడియట్ క్లాసెస్."); nav("https://www.khanacademy.org/science"); }
+            
+            // 3. Educational Apps
+            else if(cmd.includes("ssc")) { speak("SSC పోర్టల్ ఓపెన్ చేస్తున్నాను."); nav("https://bse.telangana.gov.in"); }
+            else if(cmd.includes("iit") || cmd.includes("jee")) { speak("IIT JEE స్టడీ మెటీరియల్ సిద్ధం చేస్తున్నాను."); nav("https://phet.colorado.edu/te/"); }
             else if (c.includes("gemini")) { speak("గూగుల్ జెమిని ఓపెన్ చేస్తున్నాను."); nav("https://gemini.google.com"); }
             else if (c.includes("chatgpt")) { speak("చాట్ జిపిటి ఓపెన్ చేస్తున్నాను."); nav("https://chat.openai.com"); }
-            else if (c.includes("nano")) { speak("నానో బనానా AI ఇమేజ్ మేకర్."); nav("https://www.bing.com/images/create"); }
-            else if (c.includes("edit")) { speak("ఫోటో ఎడిటర్ ఓపెన్ చేస్తున్నాను."); nav("https://www.photopea.com"); }
-            else if (c.includes("హలో") || c.includes("hi")) speak("హలో సార్, మీకు ఎలా సహాయపడగలను?");
-            else if (c.includes("తయారు చేసిందిelse if (c.includes("నీ పేరు ఏమిటి") || c.includes("name")) {
-    speak("నా పేరు జార్విస్ స్కాలర్. నేను మీ పర్సనల్ ఎడ్యుకేషన్ అసిస్టెంట్‌ని.");
-        }
-        ") || c.includes("create") || c.includes("creator")) speak("నన్ను మనోజ్ కుమార్ గారు తయారు చేశారు.");
-            else speak("క్షమించండి సార్, అది నా డేటాబేస్ లో లేదు.");
-            inp.value = "";
+            else if (c.includes("nano")) { speak("నానో బనానా AI ఇమేజ్ మేకర్."); nav("https://www.bing.com/images/create"
+                     
+            // 4. Social & AI
+            else if(cmd.includes("youtube") || cmd.includes("యూట్యూబ్")) { speak("యూట్యూబ్ ఓపెన్ చేస్తున్నాను."); nav("https://www.youtube.com"); }
+            else if(cmd.includes("gemini") || cmd.includes("ai")) { speak("జెమిని AI ని సంప్రదిస్తున్నాను."); nav("https://gemini.google.com"); }
+            else if(cmd.includes("google") || cmd.includes("వెతుకు")) {
+                let q = cmd.replace("google", "").replace("వెతుకు", "");
+                speak("గూగుల్ లో వెతుకుతున్నాను.");
+                nav("https://www.google.com/search?q=" + q);
+            }
+
+            // 5. Intelligent Chat
+            else if(cmd.includes("ఎలా ఉన్నావు")) speak("నేను చాలా బాగున్నాను సార్. మీరు ఎలా ఉన్నారు?");
+            else if(cmd.includes("ఆకలి")) speak("నేను మెమరీ మరియు డేటాను తింటాను సార్, నాకు ఆకలి వేయదు!");
+            else if(cmd.includes("హలో") || cmd.includes("hi")) speak("హలో సార్, మీకు ఏ సాయం కావాలి?");
+            
+            // 6. Default
+            else {
+                speak("క్షమించండి సార్, ఆ సమాచారం నా దగ్గర లేదు. గూగుల్ లో వెతకమంటారా?");
+                setTimeout(() => nav("https://www.google.com/search?q=" + cmd), 3000);
+            }
+            document.getElementById('inp').value = "";
         }
 
-        document.getElementById('sbm').onclick = () => process(inp.value);
-        inp.onkeypress = (e) => { if(e.key=='Enter') process(inp.value); };
-
+        // Voice Recognition
         document.getElementById('mic').onclick = (e) => {
             e.stopPropagation();
-            const S = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!S) { alert("వాయిస్ సపోర్ట్ లేదు!"); return; }
-            const r = new S(); r.lang='te-IN';
-            r.onstart = () => { status.innerText = "LISTENING..."; status.style.color = "red"; };
-            r.onresult = (ev) => { 
-                const res = ev.results[0][0].transcript; 
-                inp.value = res; 
-                process(res); 
-                status.innerText = "SYSTEMS ONLINE"; status.style.color = "#00f2ff"; 
+            const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!Speech) return alert("వాయిస్ సపోర్ట్ లేదు!");
+            const rec = new Speech(); rec.lang = 'te-IN';
+            rec.onstart = () => { st.innerText = "LISTENING..."; log.innerText = "నేను వింటున్నాను..."; };
+            rec.onresult = (ev) => {
+                const res = ev.results[0][0].transcript;
+                process(res);
+                st.innerText = "SYSTEMS ONLINE";
             };
-            r.start();
+            rec.start();
         };
     </script>
 </body>
 </html>
 
+            
 
