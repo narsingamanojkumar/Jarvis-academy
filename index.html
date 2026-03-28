@@ -85,7 +85,30 @@
 
         function nav(url) { window.open(url, "_blank"); }
 
-        function process(c) {
+        function process(c) {        function process(c) {
+            c = c.toLowerCase().trim();
+            if(!c) return;
+
+            if (c.includes("master launch")) {
+                speak("సరే సార్, అన్నీ ఓపెన్ చేస్తున్నాను.");
+                const urls = ["https://bse.telangana.gov.in", "https://www.cbse.gov.in", "https://phet.colorado.edu/te/", "https://chat.openai.com"];
+                urls.forEach((u, i) => setTimeout(() => nav(u), i * 1500));
+            }
+            else if (c.includes("ssc")) { speak("SSC బోర్డ్ సైట్."); nav("https://bse.telangana.gov.in"); }
+            else if (c.includes("cbse")) { speak("CBSE బోర్డ్ సైట్."); nav("https://www.cbse.gov.in"); }
+            else if (c.includes("iit physics")) { speak("IIT ఫిజిక్స్."); nav("https://phet.colorado.edu/te/"); }
+            else if (c.includes("iit maths")) { speak("మ్యాథ్స్ సాల్వర్."); nav("https://www.symbolab.com"); }
+            else if (c.includes("gemini")) { speak("గూగుల్ జెమిని."); nav("https://gemini.google.com"); }
+            else if (c.includes("chatgpt")) { speak("చాట్ జిపిటి."); nav("https://chat.openai.com"); }
+            else if (c.includes("edit")) { speak("ఫోటో ఎడిటర్."); nav("https://www.photopea.com"); }
+            else if (c.includes("youtube") || c.includes("యూట్యూబ్")) { speak("యూట్యూబ్ ఓపెన్ చేస్తున్నాను."); nav("https://www.youtube.com"); }
+            else if (c.includes("నీ పేరు ఏమిటి") || c.includes("name")) { speak("నా పేరు జార్విస్ స్కాలర్."); }
+            else if (c.includes("తయారు చేసింది") || c.includes("create")) { speak("నన్ను మనోజ్ కుమార్ గారు తయారు చేశారు."); }
+            else if (c.includes("హలో") || c.includes("hi")) { speak("హలో సార్, మీకు ఎలా సహాయపడగలను?"); }
+            else { speak("క్షమించండి సార్, అది నా డేటాబేస్ లో లేదు."); }
+            inp.value = "";
+        }
+                             
             c = c.toLowerCase().trim();
             if(!c) return;
 
